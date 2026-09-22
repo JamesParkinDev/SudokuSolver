@@ -62,10 +62,14 @@ def check_box_complete(sudoku: list[list[int]], boxNum: int) -> bool:
     box = [sudoku[x][y] for x in range((boxNum // 3) * 3, (boxNum // 3) * 3 + 3) for y in range((boxNum % 3) * 3, (boxNum % 3) * 3 + 3)]
     return set(box) == set(range(1, 10))
 
+def check_cell(sudoku: list[list[int]], rowNum: int, colNum: int, proposedVal: int) -> bool:
+    return check_box_valid(sudoku, (3*(rowNum//3) + colNum//3), proposedVal) and check_row_valid(sudoku, rowNum, proposedVal) and check_col_valid(sudoku, colNum, proposedVal)
+
 def backtracking():
     return
 
 def main():
+    print(check_cell(exampleSudoku, 0, 0, 1))
     return
 
 if __name__ == '__main__':
