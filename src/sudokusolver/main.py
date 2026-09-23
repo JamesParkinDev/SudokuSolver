@@ -1,3 +1,4 @@
+#exampleSudoku = "53..7....6..195....98....6.8...6...34..8.3..17...2...6.6....28....419..5....8..79"
 exampleSudoku = [[5,3,0,0,7,0,0,0,0],
                  [6,0,0,1,9,5,0,0,0],
                  [0,9,8,0,0,0,0,6,0],
@@ -64,11 +65,33 @@ def check_box_complete(sudoku: list[list[int]], boxNum: int) -> bool:
 def check_cell(sudoku: list[list[int]], rowNum: int, colNum: int, proposedVal: int) -> bool:
     return check_box_valid(sudoku, (3*(rowNum//3) + colNum//3), proposedVal) and check_row_valid(sudoku, rowNum, proposedVal) and check_col_valid(sudoku, colNum, proposedVal)
 
-def backtracking():
-    return
+def find_empty(sudoku:list[list[int]]) -> list[int]:
+    for row in range(9):
+        for col in range(9):
+            if sudoku[row][col] == 0:
+                return [row,col]
+
+    return None
+
+def backtracking(sudoku: list[list[int]]) -> list[list[int]]:
+    next_empty = find_empty(sudoku)
+    if not next_empty:
+        return sudoku
+
+    for value in range(1, 10):
+        if check_cell(sudoku, next_empty[0], next_empty[1], value):
+            sudoku[next_empty[0]][next_empty[1]] = value
+
+            if backtracking(sudoku):
+                return sudoku
+
+        sudoku[next_empty[0]][next_empty[1]] = 0
+    return None
+
 
 def main():
-    print(check_cell(exampleSudoku, 0, 0, 1))
+    #print(check_cell(exampleSudoku, 0, 0, 1))
+    #print(backtracking(exampleSudoku))
     return
 
 if __name__ == '__main__':
